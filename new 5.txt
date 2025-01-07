@@ -1,0 +1,85 @@
+<%@ Page Title="Categories" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Categories.aspx.cs" Inherits="YourNamespace.Categories" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div style="padding: 20px;">
+        <h2 style="color: red;">Category Details</h2>
+        <div style="margin-bottom: 20px;">
+            <label>Category Name:</label>
+            <asp:TextBox ID="txtCategoryName" runat="server" CssClass="form-control" />
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label>Category Remarks:</label>
+            <asp:TextBox ID="txtCategoryRemarks" runat="server" CssClass="form-control" />
+        </div>
+        <div style="margin-bottom: 20px;">
+            <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-danger" OnClick="btnEdit_Click" />
+            <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-success" OnClick="btnSave_Click" />
+            <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="btn btn-danger" OnClick="btnDelete_Click" />
+        </div>
+        <h3 style="color: red;">Manage Categories</h3>
+        <asp:GridView ID="gvCategories" runat="server" CssClass="table table-bordered" AutoGenerateColumns="False" OnSelectedIndexChanged="gvCategories_SelectedIndexChanged">
+            <Columns>
+                <asp:BoundField DataField="CatId" HeaderText="CatId" />
+                <asp:BoundField DataField="CatName" HeaderText="CatName" />
+                <asp:BoundField DataField="CatDescription" HeaderText="CatDescription" />
+                <asp:ButtonField Text="Select" ButtonType="Link" CommandName="Select" />
+            </Columns>
+        </asp:GridView>
+    </div>
+</asp:Content>
+//////////////////////////////////////////
+
+
+using System;
+using System.Data;
+using System.Web.UI;
+
+namespace YourNamespace
+{
+    public partial class Categories : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                BindCategories();
+            }
+        }
+
+        private void BindCategories()
+        {
+            // Example data source (replace with database connection)
+            DataTable dt = new DataTable();
+            dt.Columns.Add("CatId");
+            dt.Columns.Add("CatName");
+            dt.Columns.Add("CatDescription");
+            dt.Rows.Add("100", "Vegetables", "Any type of vegetables");
+            
+            gvCategories.DataSource = dt;
+            gvCategories.DataBind();
+        }
+
+        protected void btnEdit_Click(object sender, EventArgs e)
+        {
+            // Logic for editing the category
+        }
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            // Logic for saving the category
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            // Logic for deleting the category
+        }
+
+        protected void gvCategories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Logic for selecting a category from the grid
+            GridViewRow row = gvCategories.SelectedRow;
+            txtCategoryName.Text = row.Cells[1].Text; // Set the selected category name
+            txtCategoryRemarks.Text = row.Cells[2].Text; // Set the selected category remarks
+        }
+    }
+}
